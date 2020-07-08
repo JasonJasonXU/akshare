@@ -6,6 +6,7 @@ Desc: 金十数据-数据中心-中国-中国宏观
 https://datacenter.jin10.com/economic
 首页-价格指数-中价-价格指数-中国电煤价格指数(CTCI)
 http://jgjc.ndrc.gov.cn/dmzs.aspx?clmId=741
+输出数据格式为 float64
 """
 import json
 import time
@@ -57,6 +58,7 @@ def macro_china_gdp_yearly():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值(%)"]
     temp_df.name = "gdp"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -81,6 +83,7 @@ def macro_china_cpi_yearly():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值(%)"]
     temp_df.name = "cpi"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -105,6 +108,7 @@ def macro_china_cpi_monthly():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值(%)"]
     temp_df.name = "cpi"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -129,6 +133,7 @@ def macro_china_ppi_yearly():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值(%)"]
     temp_df.name = "ppi"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -153,6 +158,7 @@ def macro_china_exports_yoy():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值(%)"]
     temp_df.name = "china_exports_yoy"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -177,6 +183,7 @@ def macro_china_imports_yoy():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值(%)"]
     temp_df.name = "china_imports_yoy"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -201,6 +208,7 @@ def macro_china_trade_balance():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值(亿美元)"]
     temp_df.name = "china_trade_balance"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -225,6 +233,7 @@ def macro_china_industrial_production_yoy():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值(%)"]
     temp_df.name = "china_industrial_production_yoy"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -250,6 +259,7 @@ def macro_china_pmi_yearly():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值"]
     temp_df.name = "pmi"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -275,6 +285,7 @@ def macro_china_cx_pmi_yearly():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值"]
     temp_df.name = "cx_pmi"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -300,6 +311,7 @@ def macro_china_cx_services_pmi_yearly():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值"]
     temp_df.name = "cx_services_pmi"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -336,6 +348,7 @@ def macro_china_non_man_pmi():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值"]
     temp_df.name = "non_pmi"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -411,6 +424,7 @@ def macro_china_fx_reserves_yearly():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值(亿美元)"]
     temp_df.name = "fx_reserves"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -447,6 +461,8 @@ def macro_china_m2_yearly():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df["今值(%)"]
     temp_df.name = "m2"
+    temp_df = temp_df[temp_df != 0]
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -484,10 +500,10 @@ def macro_china_shibor_all():
     big_df["9M_涨跌幅"] = temp_df["9M"].apply(lambda x: x[1])
     big_df["1Y_定价"] = temp_df["1Y"].apply(lambda x: x[0])
     big_df["1Y_涨跌幅"] = temp_df["1Y"].apply(lambda x: x[1])
-    big_df["ON_定价"] = temp_df["ON"].apply(lambda x: x[0])
-    big_df["ON_涨跌幅"] = temp_df["ON"].apply(lambda x: x[1])
-    big_df["2M_定价"] = temp_df["2M"].apply(lambda x: x[0])
-    big_df["2M_涨跌幅"] = temp_df["2M"].apply(lambda x: x[1])
+    # big_df["ON_定价"] = temp_df["ON"].apply(lambda x: x[0])
+    # big_df["ON_涨跌幅"] = temp_df["ON"].apply(lambda x: x[1])
+    # big_df["2M_定价"] = temp_df["2M"].apply(lambda x: x[0])
+    # big_df["2M_涨跌幅"] = temp_df["2M"].apply(lambda x: x[1])
     big_df = big_df.apply(lambda x: x.replace("-", np.nan))
     big_df = big_df.apply(lambda x: x.replace([None], np.nan))
     big_df.sort_index(inplace=True)
@@ -513,8 +529,8 @@ def macro_china_hk_market_info():
     temp_df = pd.DataFrame(json_data["values"]).T
     big_df = pd.DataFrame()
     temp_df.fillna(value="--", inplace=True)
-    big_df["O/N_定价"] = temp_df["O/N"].apply(lambda x: x[0])
-    big_df["O/N_涨跌幅"] = temp_df["O/N"].apply(lambda x: x[1])
+    # big_df["O/N_定价"] = temp_df["O/N"].apply(lambda x: x[0])
+    # big_df["O/N_涨跌幅"] = temp_df["O/N"].apply(lambda x: x[1])
     big_df["1W_定价"] = temp_df["1W"].apply(lambda x: x[0])
     big_df["1W_涨跌幅"] = temp_df["1W"].apply(lambda x: x[1])
     big_df["2W_定价"] = temp_df["2W"].apply(lambda x: x[0])
@@ -525,8 +541,8 @@ def macro_china_hk_market_info():
     big_df["3M_涨跌幅"] = temp_df["3M"].apply(lambda x: x[1])
     big_df["6M_定价"] = temp_df["6M"].apply(lambda x: x[0])
     big_df["6M_涨跌幅"] = temp_df["6M"].apply(lambda x: x[1])
-    big_df["9M_定价"] = temp_df["9M"].apply(lambda x: x[0])
-    big_df["9M_涨跌幅"] = temp_df["9M"].apply(lambda x: x[1])
+    # big_df["9M_定价"] = temp_df["9M"].apply(lambda x: x[0])
+    # big_df["9M_涨跌幅"] = temp_df["9M"].apply(lambda x: x[1])
     big_df["1Y_定价"] = temp_df["1Y"].apply(lambda x: x[0])
     big_df["1Y_涨跌幅"] = temp_df["1Y"].apply(lambda x: x[1])
     big_df["ON_定价"] = temp_df["ON"].apply(lambda x: x[0])
@@ -574,6 +590,7 @@ def macro_china_daily_energy():
     value_df.index = pd.to_datetime(date_list)
     temp_df = value_df[["沿海六大电库存", "日耗", "存煤可用天数"]]
     temp_df.name = "energy"
+    temp_df = temp_df.astype(float)
     return temp_df
 
 
@@ -700,6 +717,7 @@ def macro_china_market_margin_sz():
     temp_df = pd.DataFrame(json_data["values"]).T
     temp_df.columns = ["融资买入额", "融资余额", "融券卖出量", "融券余量", "融券余额", "融资融券余额"]
     temp_df.sort_index(inplace=True)
+    temp_df.index = pd.to_datetime(temp_df.index)
     temp_df = temp_df.astype("float")
     return temp_df
 
@@ -769,6 +787,8 @@ def macro_china_market_margin_sh():
     ]
     value_df.index = pd.to_datetime(date_list)
     value_df.name = "market_margin_sh"
+    value_df.index = pd.to_datetime(value_df.index)
+    value_df = value_df.astype(float)
     return value_df
 
 
@@ -806,8 +826,11 @@ def macro_china_ctci():
     :rtype: pandas.DataFrame
     """
     url = "http://59.252.41.60/portal//out/dm?t=1578298533594"
-    res = requests.get(url)
-    return pd.DataFrame({"date": res.json()["periods"], "value": res.json()["data"][0]})
+    r = requests.get(url)
+    temp_df = pd.Series(r.json()["data"][0])
+    temp_df.index = pd.to_datetime(r.json()["periods"])
+    temp_df = temp_df.astype(float)
+    return temp_df
 
 
 # 发改委-中国电煤价格指数-各价区电煤价格指数
@@ -823,7 +846,9 @@ def macro_china_ctci_detail():
     data_df = pd.DataFrame(res.json()["data"])
     data_df.index = res.json()["names"]
     data_df.columns = ["-", "环比", "上期", "同比", "本期"]
-    return data_df[["环比", "上期", "同比", "本期"]]
+    temp = data_df[["环比", "上期", "同比", "本期"]]
+    temp = temp.astype(float)
+    return temp
 
 
 # 发改委-中国电煤价格指数-历史电煤价格指数
@@ -844,7 +869,11 @@ def macro_china_ctci_detail_hist(year="2018"):
     res = requests.post(url, data=params)
     data_df = pd.DataFrame(res.json()["data"])
     data_df.columns = res.json()["names"]
-    return data_df
+    data_df.index = data_df["地区"]
+    del data_df["地区"]
+    temp_df = data_df
+    temp_df = temp_df.astype(float)
+    return temp_df
 
 
 # 中国-利率-贷款报价利率
@@ -870,7 +899,11 @@ def macro_china_lpr():
     r = requests.get(url, params=params)
     data_text = r.text
     data_json = json.loads(data_text.strip("var WPuRCBoA=")[:-1])
-    return pd.DataFrame(data_json["result"]["data"])
+    temp_df = pd.DataFrame(data_json["result"]["data"])
+    temp_df.index = pd.to_datetime(temp_df["TRADE_DATE"])
+    del temp_df["TRADE_DATE"]
+    temp_df = temp_df.astype(float)
+    return temp_df
 
 
 # 中国-货币-货币供应量

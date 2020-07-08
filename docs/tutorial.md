@@ -21,6 +21,7 @@
  "get_futures_daily",  # 获取中国金融期货交易所每日基差数据
  "get_rank_sum",  # 获取四个期货交易所前5, 10, 15, 20会员持仓排名数据
  "get_rank_sum_daily",  # 获取每日四个期货交易所前5, 10, 15, 20会员持仓排名数据
+ "futures_dce_position_rank",  # 大连商品交易所前 20 会员持仓排名数据
  "get_receipt",  # 获取大宗商品注册仓单数据
  "get_roll_yield",  # 获取某一天某品种(主力和次主力)或固定两个合约的展期收益率
  "get_roll_yield_bar",  # 获取展期收益率
@@ -29,6 +30,9 @@
  "get_shfe_v_wap",  # 获取上海期货交易所日成交均价数据
  "futures_spot_price",  # 获取某一交易日大宗商品现货价格及相应基差数据
  "futures_spot_price_daily"  # 获取一段交易日大宗商品现货价格及相应基差数据
+ "futures_czce_warehouse_receipt"  # 郑州商品交易所-交易数据-仓单日报
+ "futures_shfe_warehouse_receipt"  # 上海期货交易所-交易数据-仓单日报
+ "futures_dce_warehouse_receipt"  # 大连商品交易所-交易数据-仓单日报
  # 奇货可查数据
  "get_qhkc_index"  # 获取奇货可查-指数-数值数据
  "get_qhkc_index_profit_loss"  # 获取奇货可查-指数-累计盈亏数据
@@ -117,7 +121,8 @@
  "stock_zh_a_tick_tx_js"  # A 股票分笔行情数据(近2年)-腾讯-当日数据
  "stock_zh_a_tick_163"  # A 股票分笔行情数据(近5个交易日)-163
  # Websocket 实时监控
- "watch"  # 监控外汇实时价格
+ "watch_jinshi_fx"  # 外汇实时接口
+ "watch_jinshi_quotes"  # 行情报价接口
  # 世界各地区日出和日落数据-日
  "weather_daily"  # 每日日出和日落数据
  # 世界各地区日出和日落数据-月
@@ -338,7 +343,7 @@
  "macro_usa_eia_crude_rate"  # 金十数据中心-经济指标-美国-其他-美国EIA原油库存报告
  "macro_usa_initial_jobless"  # 金十数据中心-经济指标-美国-其他-美国初请失业金人数报告
  "macro_usa_crude_inner"  # 金十数据中心-经济指标-美国-其他-美国原油产量报告
- # 更新宏观数据
+ # 宏观数据
  "macro_cons_gold_volume"  # 全球最大黄金ETF—SPDR Gold Trust持仓报告
  "macro_cons_gold_change"  # 全球最大黄金ETF—SPDR Gold Trust持仓报告
  "macro_cons_gold_amount"  # 全球最大黄金ETF—SPDR Gold Trust持仓报告
@@ -347,6 +352,14 @@
  "macro_cons_silver_amount"  # 全球最大白银ETF--iShares Silver Trust持仓报告
  "macro_cons_opec_near_change"  # 欧佩克报告-变动
  "macro_cons_opec_month"  # 欧佩克报告-月度
+ # 伦敦金属交易所(LME)
+ "macro_euro_lme_holding"  # 伦敦金属交易所(LME)-持仓报告
+ "macro_euro_lme_stock"  # 伦敦金属交易所(LME)-库存报告
+ # 美国商品期货交易委员会
+ "macro_usa_cftc_nc_holding"  # 外汇类非商业持仓报告
+ "macro_usa_cftc_c_holding"  # 商品类非商业持仓报告
+ "macro_usa_cftc_merchant_currency_holding"  # 外汇类商业持仓报告
+ "macro_usa_cftc_merchant_goods_holding"  # 商品类商业持仓报告
  # 货币对-投机情绪报告
  "macro_fx_sentiment"  # 货币对-投机情绪报告
  # COVID-19数据接口
@@ -376,6 +389,8 @@
  # 债券-沪深可转债
  "bond_zh_hs_cov_daily"  # 债券-沪深可转债-历史行情数据
  "bond_zh_hs_cov_spot"  # 债券-沪深可转债-实时行情数据
+ "bond_zh_cov"  # 债券-可转债数据一览表
+ "bond_cov_comparison"  # 债券-可转债数据比价
  # 中国-商业特许经营数据
  "franchise_china"  # 中国-商业特许经营数据
  # 慈善中国
@@ -422,6 +437,7 @@
  "fund_em_graded_fund_info",  # 分级基金-历史数据
  "fund_em_money_fund_daily",  # 货币型基金-实时数据
  "fund_em_money_fund_info",  # 货币型基金-历史数据
+ "fund_em_value_estimation",  # 基金估值
  # 分析师指数
  "stock_em_analyst_rank"  # 分析师排名
  "stock_em_analyst_detail"  # 分析师详情
@@ -434,6 +450,7 @@
  "stock_em_hsgt_south_net_flow_in"  # 沪深港通南向-净流入
  "stock_em_hsgt_south_cash"  # 沪深港通南向-资金余额
  "stock_em_hsgt_south_acc_flow_in"  # 沪深港通南向-累计净流入
+ "stock_em_hsgt_hold_stock"  # 沪深港通持股-个股排行
  # 两市停复牌
  "stock_em_tfp"  # 两市停复牌数据
  # 恐慌指数
@@ -459,6 +476,46 @@
  # 商品期货库存数据
  "futures_inventory_em"  # 库存数据-东方财富
  "get_inventory_data"  # 库存数据-99期货
+ # 个股资金流
+ "stock_individual_fund_flow"  # 个股资金流
+ "stock_individual_fund_flow_rank"  # 个股资金流排名
+ "stock_market_fund_flow"  # 大盘资金流
+ "stock_sector_fund_flow_rank"  # 板块资金流排名
+ # 股票基本面数据
+ "stock_financial_abstract"  # 财务摘要
+ "stock_financial_analysis_indicator"  # 财务指标
+ "stock_add_stock"  # 股票增发
+ "stock_ipo_info"  # 股票新股
+ "stock_history_dividend_detail"  # 分红配股
+ "stock_history_dividend"  # 历史分红
+ "stock_restricted_shares"  # 限售解禁
+ "stock_circulate_stock_holder"  # 流动股东
+ "stock_fund_stock_holder"  # 基金持股
+ "stock_main_stock_holder"  # 主要股东
+ # 股票板块
+ "stock_sector_spot"  # 板块行情
+ "stock_sector_detail"  # 板块详情(具体股票)
+ # 股票信息
+ "stock_info_sz_name_code"  # 深证证券交易所股票代码和简称
+ "stock_info_sh_name_code"  # 上海证券交易所股票代码和简称
+ "stock_info_sh_delist"  # 上海证券交易所暂停和终止上市
+ "stock_info_sz_delist"  # 深证证券交易所暂停和终止上市
+ "stock_info_sz_change_name"  # 深证证券交易所股票曾用名详情
+ "stock_info_change_name"  # A 股股票曾用名列表
+ "stock_info_a_code_name"  # A 股股票代码和简称
+ # 机构持股
+ "stock_institute_hold"  # 机构持股一览表
+ "stock_institute_hold_detail"  # 机构持股详情
+ # 机构推荐股票
+ "stock_institute_recommend"  # 机构推荐
+ "stock_institute_recommend_detail"  # 股票评级记录
+ # 股票市场总貌
+ "stock_szse_summary"  # 深圳证券交易所-市场总貌
+ "stock_sse_summary"  # 上海证券交易所-股票数据总貌
+ # 美股港股目标价
+ "stock_js_price"  # 美股港股目标价
+ # 券商业绩月报
+ "stock_em_qsjy"  # 券商业绩月报
 ```
 
 ## 案例演示
@@ -469,7 +526,8 @@
 
 ```python
 import akshare as ak
-ak.get_roll_yield_bar(type_method="date", var="RB", start_day="20180618", end_day="20180718", plot=True)
+get_roll_yield_bar_df = ak.get_roll_yield_bar(type_method="date", var="RB", start_day="20180618", end_day="20180718", plot=True)
+print(get_roll_yield_bar_df)
 ```
 
 结果显示: 日期, 展期收益率, 最近合约, 下一期合约
@@ -506,7 +564,8 @@ ak.get_roll_yield_bar(type_method="date", var="RB", start_day="20180618", end_da
 
 ```python
 import akshare as ak
-ak.zdzk_fund_index(index_type=32, plot=True)
+zdzk_fund_index_df = ak.zdzk_fund_index(index_type=32, plot=True)
+print(zdzk_fund_index_df)
 ```
 
 结果显示: 日期, 指数数值

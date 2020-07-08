@@ -1289,4 +1289,104 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 0.5.8: add: macro_china_money_supply
 
 0.5.9: add: macro_china_new_house_price, macro_china_enterprise_boom_index, macro_china_national_tax_receipts
+
+0.5.10: fix: zh_stock_ah_tx
+
+0.5.11: fix: fund_em return fields
+
+0.5.12: fix: add date to fund_em daily function
+
+0.5.13: add: stock_fund
+
+0.5.14: add: stock_market_fund_flow, stock_sector_fund_flow, stock_individual_fund_flow_rank
+
+0.5.15: fix: baidu_index
+
+0.5.16: add: fund_em_value_estimation
+
+0.5.17: fix: delete macro_euro zero value
+
+0.5.18: add: stock_financial_abstract, stock_financial_analysis_indicator
+
+0.5.19: add: stock_add_stock, stock_ipo_info, stock_history_dividend_detail, stock_history_dividend
+
+0.5.20: add: stock_restricted_shares, stock_circulate_stock_holder
+
+0.5.21: add: futures_dce_position_rank
+
+0.5.22: fix: fix futures_dce_position_rank return format
+
+0.5.23: add: stock_sector_spot, stock_sector_detail
+
+0.5.24: fix: futures_dce_position_rank
+
+0.5.25: fix: futures_dce_position_rank return fields
+
+0.5.26: add: stock_info
+
+0.5.27: add: stock_em_hsgt_hold_stock
+
+0.5.28: add: stock_fund_stock_holder, stock_main_stock_holder
+
+0.5.29: fix: stock_em_sy
+
+0.5.30: fix: air_zhenqi.py
+
+0.5.31: fix: add futures_dce_position_rank_other to fix futures_dce_position_rank at 20160104
+
+0.5.32: fix: futures_dce_position_rank_other return format
+
+0.5.33: add: zh_bond_cov_sina and set pandas version
+
+0.5.34: fix: set pandas version > 0.25
+
+0.5.35: add: bond_cov_comparison and bond_zh_cov
+
+0.5.36: fix: stock_info_sz_name_code return code format
+
+0.5.37: add: stock_hold
+
+0.5.38: fix: futures_dce_position_rank_other exchange symbol and variety
+
+0.5.39: add: stock_recommend
+
+0.5.40: fix: stock_recommend output format
+
+0.5.41: fix: deprecated requests-html module
+
+0.5.42: fix: reformat investing interface
+
+0.5.43: fix: qhck interface
+
+0.5.44: add: LME holding and stock report
+
+0.5.45: fix: transform the data type of stock_zh_a_spot output
+
+0.5.46: add: CFTC holding and stock
+
+0.5.47: fix: fix index_investing_global interface
+
+0.5.48: fix: fix stock_info_a_code_name interface
+
+0.5.49: fix: fix stock_zh_a_daily interface
+
+0.5.50: fix: fix get_roll_yield_bar interface
+
+0.5.51: add: stock_summary
+
+0.5.52: fix: fix get_roll_yield_bar interface
+
+0.5.53: add: add watch_jinshi_quotes interface
+
+0.5.54: add: add stock_js_price interface
+
+0.5.55: add: add futures_czce_warehouse_receipt interface
+
+0.5.56: add: add futures_dce_warehouse_receipt, futures_shfe_warehouse_receipt interface
+
+0.5.57: fix: fix macro data interface
+
+0.5.58: add: add stock_em_qsjy interface
+
+0.5.59: fix: fix fund interface
 ```

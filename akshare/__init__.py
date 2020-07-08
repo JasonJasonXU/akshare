@@ -1,7 +1,7 @@
 """AkShare 是基于 Python 的开源金融数据接口库, 目的是实现对股票, 期货, 期权, 基金, 债券, 外汇等金融产品和另类数据从数据采集, 数据清洗到数据下载的工具, 满足金融数据科学家, 数据科学爱好者在数据获取方面的需求. 它的特点是利用 AkShare 获取的是基于可信任数据源发布的原始数据, 广大数据科学家可以利用原始数据进行再加工, 从而得出科学的结论."""
 
 """
-版本改动记录:
+版本更新记录:
 0.1.13
 更新所有基于 fushare 的接口
 0.1.14
@@ -935,10 +935,134 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 0.5.7: fix: import akshare only load functions
 0.5.8: add: macro_china_money_supply
 0.5.9: add: macro_china_new_house_price, macro_china_enterprise_boom_index, macro_china_national_tax_receipts
+0.5.10: fix: zh_stock_ah_tx
+0.5.11: fix: fund_em return fields
+0.5.12: fix: add date to fund_em daily function
+0.5.13: add: stock_fund
+0.5.14: add: stock_market_fund_flow, stock_sector_fund_flow, stock_individual_fund_flow_rank
+0.5.15: fix: baidu_index
+0.5.16: add: fund_em_value_estimation
+0.5.17: fix: delete macro_euro zero value
+0.5.18: add: stock_financial_abstract, stock_financial_analysis_indicator
+0.5.19: add: stock_add_stock, stock_ipo_info, stock_history_dividend_detail, stock_history_dividend
+0.5.20: add: stock_restricted_shares, stock_circulate_stock_holder
+0.5.21: add: futures_dce_position_rank
+0.5.22: fix: fix futures_dce_position_rank return format
+0.5.23: add: stock_sector_spot, stock_sector_detail
+0.5.24: fix: futures_dce_position_rank
+0.5.25: fix: futures_dce_position_rank return fields
+0.5.26: add: stock_info
+0.5.27: add: stock_em_hsgt_hold_stock
+0.5.28: add: stock_fund_stock_holder, stock_main_stock_holder
+0.5.29: fix: stock_em_sy
+0.5.30: fix: air_zhenqi.py
+0.5.31: fix: add futures_dce_position_rank_other to fix futures_dce_position_rank at 20160104
+0.5.32: fix: futures_dce_position_rank_other return format
+0.5.33: add: zh_bond_cov_sina and set pandas version
+0.5.34: fix: set pandas version > 0.25
+0.5.35: add: bond_cov_comparison and bond_zh_cov
+0.5.36: fix: stock_info_sz_name_code return code format
+0.5.37: add: stock_hold
+0.5.38: fix: futures_dce_position_rank_other exchange symbol and variety
+0.5.39: add: stock_recommend
+0.5.40: fix: stock_recommend output format
+0.5.41: fix: deprecated requests-html module
+0.5.42: fix: reformat investing interface
+0.5.43: fix: qhck interface
+0.5.44: add: LME holding and stock report
+0.5.45: fix: transform the data type of stock_zh_a_spot output
+0.5.46: add: CFTC holding and stock
+0.5.47: fix: fix index_investing_global interface
+0.5.48: fix: fix stock_info_a_code_name interface
+0.5.49: fix: fix stock_zh_a_daily interface
+0.5.50: fix: fix get_roll_yield_bar interface
+0.5.51: add: stock_summary
+0.5.52: fix: fix get_roll_yield_bar interface
+0.5.53: add: add watch_jinshi_quotes interface
+0.5.54: add: add stock_js_price interface
+0.5.55: add: add futures_czce_warehouse_receipt interface
+0.5.56: add: add futures_dce_warehouse_receipt, futures_shfe_warehouse_receipt interface
+0.5.57: fix: fix macro data interface
+0.5.58: add: add stock_em_qsjy interface
+0.5.59: fix: fix fund interface
 """
 
-__version__ = "0.5.9"
+__version__ = "0.5.59"
 __author__ = "Albert King"
+
+"""
+stock-券商业绩月报
+"""
+from akshare.stock_feature.stock_em_qsjy import stock_em_qsjy
+
+"""
+futures-warehouse-receipt
+"""
+from akshare.futures.futures_warehouse_receipt import futures_czce_warehouse_receipt, futures_dce_warehouse_receipt, futures_shfe_warehouse_receipt
+
+"""
+stock-js
+"""
+from akshare.stock.stock_js_us import stock_js_price
+
+"""
+stock-summary
+"""
+from akshare.stock.stock_summary import stock_sse_summary, stock_szse_summary
+
+"""
+股票-机构推荐池
+"""
+from akshare.stock_fundamental.stock_recommend import stock_institute_recommend, stock_institute_recommend_detail
+
+"""
+股票-机构持股
+"""
+from akshare.stock_fundamental.stock_hold import stock_institute_hold_detail, stock_institute_hold
+
+"""
+stock-info
+"""
+from akshare.stock.stock_info import (
+    stock_info_sh_delist,
+    stock_info_sz_delist,
+    stock_info_a_code_name,
+    stock_info_sh_name_code,
+    stock_info_sz_name_code,
+    stock_info_sz_change_name,
+    stock_info_change_name,
+)
+
+"""
+stock-sector
+"""
+from akshare.stock.stock_industry import stock_sector_spot, stock_sector_detail
+
+"""
+stock-fundamental
+"""
+from akshare.stock_fundamental.stock_finance import (
+    stock_financial_abstract,
+    stock_financial_analysis_indicator,
+    stock_add_stock,
+    stock_ipo_info,
+    stock_history_dividend_detail,
+    stock_history_dividend,
+    stock_circulate_stock_holder,
+    stock_restricted_shares,
+    stock_fund_stock_holder,
+    stock_main_stock_holder,
+)
+
+"""
+stock_fund
+"""
+from akshare.stock.stock_fund import (
+    stock_individual_fund_flow,
+    stock_market_fund_flow,
+    stock_sector_fund_flow_rank,
+    stock_individual_fund_flow_rank,
+)
 
 """
 air-quality
@@ -1028,6 +1152,7 @@ from akshare.stock_feature.stock_em_hsgt import (
     stock_em_hsgt_south_acc_flow_in,
     stock_em_hsgt_south_cash,
     stock_em_hsgt_south_net_flow_in,
+    stock_em_hsgt_hold_stock,
 )
 
 """
@@ -1112,7 +1237,7 @@ from akshare.event.franchise import franchise_china
 债券-沪深债券
 """
 from akshare.bond.zh_bond_sina import bond_zh_hs_daily, bond_zh_hs_spot
-from akshare.bond.zh_bond_cov_sina import bond_zh_hs_cov_daily, bond_zh_hs_cov_spot
+from akshare.bond.zh_bond_cov_sina import bond_zh_hs_cov_daily, bond_zh_hs_cov_spot, bond_cov_comparison, bond_zh_cov
 
 """
 for pro api
@@ -1155,6 +1280,7 @@ from akshare.fund.fund_em import (
     fund_em_graded_fund_info,
     fund_em_money_fund_daily,
     fund_em_money_fund_info,
+    fund_em_value_estimation,
 )
 
 """
@@ -1223,6 +1349,9 @@ from akshare.economic.macro_euro import (
     macro_euro_trade_balance,
     macro_euro_unemployment_rate_mom,
     macro_euro_zew_economic_sentiment,
+    macro_euro_lme_holding,
+    macro_euro_lme_stock,
+
 )
 
 """
@@ -1534,7 +1663,8 @@ from akshare.air.time_and_date import sunrise_daily, sunrise_monthly
 """
 金十财经-实时监控
 """
-from akshare.ws.jinshi import watch_jinshi
+from akshare.ws.js_ws_fx import watch_jinshi_fx
+from akshare.ws.js_ws_quotes import watch_jinshi_quotes
 
 """
 新浪-指数实时行情和历史行情
@@ -1725,6 +1855,10 @@ from akshare.economic.macro_usa import (
     macro_usa_ism_non_pmi,
     macro_usa_ism_pmi,
     macro_usa_job_cuts,
+    macro_usa_cftc_nc_holding,
+    macro_usa_cftc_c_holding,
+    macro_usa_cftc_merchant_currency_holding,
+    macro_usa_cftc_merchant_goods_holding,
 )
 
 """
@@ -1792,12 +1926,12 @@ from akshare.option.option_commodity import (
 """
 英为财情-债券
 """
-from akshare.bond.investing_bond import get_country_bond  # 债券-全球政府债券行情与收益率
+from akshare.bond.bond_investing import bond_investing_global, bond_investing_global_country_name_url
 
 """
 英为财情-指数
 """
-from akshare.index.index_investing import get_country_index  # 股票指数-全球股指与期货指数数据接口
+from akshare.index.index_investing import index_investing_global, index_investing_global_country_name_url
 
 """
 99期货-期货库存数据
@@ -1857,6 +1991,8 @@ from akshare.futures.cot import (
     get_czce_rank_table,
     get_dce_rank_table,
     get_cffex_rank_table,
+    futures_dce_position_rank,
+    futures_dce_position_rank_other,
 )
 
 """

@@ -5,12 +5,13 @@ date: 2020/4/5 22:48
 desc: 东方财富网站-天天基金网-基金数据-开放式基金净值
 http://fund.eastmoney.com/manager/default.html#dt14;mcreturnjson;ftall;pn20;pi1;scabbname;stasc
 # TODO 完善其他类型基金净值数据
-1.基金经理基本数据,建议包含:基金经理代码,基金经理姓名,从业起始日期,现任基金公司,管理资产总规模,上述数据可在"基金经理列表http://fund.eastmoney.com/manager/default.html#dt14;mcreturnjson;ftall;pn20;pi1;scabbname;stasc 和"基金经理理档案如:http://fund.eastmoney.com/manager/30040164.html 获取.
+1.基金经理基本数据, 建议包含:基金经理代码,基金经理姓名,从业起始日期,现任基金公司,管理资产总规模,上述数据可在"基金经理列表: http://fund.eastmoney.com/manager/default.html#dt14;mcreturnjson;ftall;pn20;pi1;scabbname;stasc 和"基金经理理档案如:http://fund.eastmoney.com/manager/30040164.html 获取.
 2.基金经理任职数据:可调取全部或特定经理,管理的基金数据,建议包含:基金经理代码,基金经理姓名,基金代码,基金简称,经理位次(在当前基金的经理中排第几位),起始任职时间,截止任职时间,任职回报.在特定基金的经理信息中可以获取如:http://fundf10.eastmoney.com/jjjl_001810.html
 3.在接口：fund_basic"公募基金列表"增加数据"基金经理代码"(或第一基金经理代码),"基金经理姓名"(或第一基金经理姓名),"当前基金经理人数","当前经理任职起始时间".
 用户ID:269993
 """
 import time
+import json
 
 import demjson
 import pandas as pd
@@ -63,14 +64,15 @@ def fund_em_open_fund_daily() -> pd.DataFrame:
     text_data = res.text
     data_json = demjson.decode(text_data.strip("var db="))
     temp_df = pd.DataFrame(data_json["datas"])
+    show_day = data_json["showday"]
     temp_df.columns = [
         "基金代码",
         "基金简称",
         "-",
-        "单位净值",
-        "累计净值",
-        "前交易日-单位净值",
-        "前交易日-累计净值",
+        f"{show_day[0]}-单位净值",
+        f"{show_day[0]}-累计净值",
+        f"{show_day[1]}-单位净值",
+        f"{show_day[1]}-累计净值",
         "日增长值",
         "日增长率",
         "申购状态",
@@ -90,10 +92,10 @@ def fund_em_open_fund_daily() -> pd.DataFrame:
         [
             "基金代码",
             "基金简称",
-            "单位净值",
-            "累计净值",
-            "前交易日-单位净值",
-            "前交易日-累计净值",
+            f"{show_day[0]}-单位净值",
+            f"{show_day[0]}-累计净值",
+            f"{show_day[1]}-单位净值",
+            f"{show_day[1]}-累计净值",
             "日增长值",
             "日增长率",
             "申购状态",
@@ -234,6 +236,7 @@ def fund_em_money_fund_daily() -> pd.DataFrame:
     url = "http://fund.eastmoney.com/HBJJ_pjsyl.html"
     r = requests.get(url, headers=headers)
     r.encoding = "gb2312"
+    show_day = pd.read_html(r.text)[1].iloc[0, 5:11].tolist()
     temp_df = pd.read_html(r.text)[1].iloc[1:, 2:]
     temp_df_columns = temp_df.iloc[0, :].tolist()[1:]
     temp_df = temp_df.iloc[1:, 1:]
@@ -242,12 +245,12 @@ def fund_em_money_fund_daily() -> pd.DataFrame:
     temp_df.columns = [
         "基金代码",
         "基金简称",
-        "当前交易日-万份收益",
-        "当前交易日-7日年化%",
-        "当前交易日-单位净值",
-        "前一交易日-万份收益",
-        "前一交易日-7日年化%",
-        "前一交易日-单位净值",
+        f"{show_day[0]}-万份收益",
+        f"{show_day[1]}-7日年化%",
+        f"{show_day[2]}-单位净值",
+        f"{show_day[3]}-万份收益",
+        f"{show_day[4]}-7日年化%",
+        f"{show_day[5]}-单位净值",
         "日涨幅",
         "成立日期",
         "基金经理",
@@ -331,6 +334,7 @@ def fund_em_financial_fund_daily() -> pd.DataFrame:
     text_data = r.text
     data_json = demjson.decode(text_data[text_data.find("{") : -1])
     temp_df = pd.DataFrame(data_json["Data"]["List"])
+    show_day = data_json["Data"]["showday"]
     data_df = temp_df[
         [
             "Id",
@@ -351,11 +355,11 @@ def fund_em_financial_fund_daily() -> pd.DataFrame:
         "封闭期",
         "基金代码",
         "申购状态",
-        "当前交易日-万份收益",
+        f"{show_day[0]}-万份收益",
         "基金简称",
-        "当前交易日-7日年华",
-        "前一个交易日-万份收益",
-        "前一个交易日-7日年华",
+        f"{show_day[0]}-7日年华",
+        f"{show_day[1]}-万份收益",
+        f"{show_day[1]}-7日年华",
     ]
     data_df = data_df[
         [
@@ -363,10 +367,10 @@ def fund_em_financial_fund_daily() -> pd.DataFrame:
             "基金代码",
             "基金简称",
             "上一期年化收益率",
-            "当前交易日-万份收益",
-            "当前交易日-7日年华",
-            "前一个交易日-万份收益",
-            "前一个交易日-7日年华",
+            f"{show_day[0]}-万份收益",
+            f"{show_day[0]}-7日年华",
+            f"{show_day[1]}-万份收益",
+            f"{show_day[1]}-7日年华",
             "封闭期",
             "申购状态",
         ]
@@ -447,14 +451,15 @@ def fund_em_graded_fund_daily() -> pd.DataFrame:
     text_data = res.text
     data_json = demjson.decode(text_data.strip("var db="))
     temp_df = pd.DataFrame(data_json["datas"])
+    show_day = data_json["showday"]
     temp_df.columns = [
         "基金代码",
         "基金简称",
         "-",
-        "单位净值",
-        "累计净值",
-        "前交易日-单位净值",
-        "前交易日-累计净值",
+        f"{show_day[0]}-单位净值",
+        f"{show_day[0]}-累计净值",
+        f"{show_day[1]}--单位净值",
+        f"{show_day[1]}--累计净值",
         "日增长值",
         "日增长率",
         "市价",
@@ -473,10 +478,10 @@ def fund_em_graded_fund_daily() -> pd.DataFrame:
         [
             "基金代码",
             "基金简称",
-            "单位净值",
-            "累计净值",
-            "前交易日-单位净值",
-            "前交易日-累计净值",
+            f"{show_day[0]}-单位净值",
+            f"{show_day[0]}-累计净值",
+            f"{show_day[1]}--单位净值",
+            f"{show_day[1]}--累计净值",
             "日增长值",
             "日增长率",
             "市价",
@@ -517,7 +522,7 @@ def fund_em_graded_fund_info(fund: str = "150232") -> pd.DataFrame:
     temp_df.columns = [
         "净值日期",
         "单位净值",
-        "-",
+        "累计净值",
         "_",
         "_",
         "_",
@@ -529,7 +534,7 @@ def fund_em_graded_fund_info(fund: str = "150232") -> pd.DataFrame:
         "_",
         "_",
     ]
-    temp_df = temp_df[["净值日期", "单位净值", "日增长率", "申购状态", "赎回状态"]]
+    temp_df = temp_df[["净值日期", "单位净值", "累计净值", "日增长率", "申购状态", "赎回状态"]]
     return temp_df
 
 
@@ -546,13 +551,14 @@ def fund_em_etf_fund_daily() -> pd.DataFrame:
     url = "http://fund.eastmoney.com/cnjy_dwjz.html"
     r = requests.get(url, headers=headers)
     r.encoding = "gb2312"
+    show_day = pd.read_html(r.text)[1].iloc[0, 6:10].tolist()
     temp_df = pd.read_html(r.text)[1].iloc[1:, 2:]
     temp_df_columns = temp_df.iloc[0, :].tolist()[1:]
     temp_df = temp_df.iloc[1:, 1:]
     temp_df.columns = temp_df_columns
     temp_df["基金简称"] = temp_df["基金简称"].str.strip("基金吧档案")
     temp_df.reset_index(inplace=True, drop=True)
-    temp_df.columns = ['基金代码', '基金简称', '类型', '当前交易日-单位净值', '当前交易日-累计净值', '前一个交易日-单位净值', '前一个交易日-累计净值', '增长值', '增长率', '市价', '折价率']
+    temp_df.columns = ['基金代码', '基金简称', '类型', f'{show_day[0]}-单位净值', f'{show_day[0]}-累计净值', f'{show_day[1]}-单位净值', f'{show_day[1]}-累计净值', '增长值', '增长率', '市价', '折价率']
     return temp_df
 
 
@@ -602,11 +608,82 @@ def fund_em_etf_fund_info(fund: str = "511280") -> pd.DataFrame:
     return temp_df
 
 
+def fund_em_value_estimation() -> pd.DataFrame:
+    """
+    东方财富网-数据中心-净值估算
+    http://fund.eastmoney.com/fundguzhi.html
+    :return: 近期净值估算数据
+    :rtype: pandas.DataFrame
+    """
+    url = "http://api.fund.eastmoney.com/FundGuZhi/GetFundGZList"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
+        "Referer": "http://fund.eastmoney.com/fundguzhi.html",
+    }
+    params = {
+        "type": "1",
+        "sort": "3",
+        "orderType": "desc",
+        "canbuy": "0",
+        "pageIndex": "1",
+        "pageSize": "10000",
+        "callback": "jQuery18306504687615774458_1589361322986",
+        "_": int(time.time() * 1000),
+    }
+    r = requests.get(url, params=params, headers=headers)
+    text_data = r.text
+    json_data = json.loads(text_data[text_data.find("{"): -1])
+    temp_df = pd.DataFrame(json_data["Data"]["list"])
+    value_day = json_data["Data"]["gzrq"]
+    cal_day = json_data["Data"]["gxrq"]
+    temp_df.columns = [
+        "基金代码",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "基金类型",
+        "-",
+        "-",
+        "-",
+        "-",
+        "估算日期",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        "-",
+        f"{cal_day}-估算值",
+        f"{cal_day}-估算增长率",
+        "-",
+        f"{value_day}-单位净值",
+        "-",
+        "-",
+        "基金名称",
+        "-",
+        "-",
+        "-",
+    ]
+    temp_df = temp_df[[
+        "基金代码",
+        "基金类型",
+        f"{cal_day}-估算值",
+        f"{cal_day}-估算增长率",
+        f"{value_day}-单位净值",
+        "基金名称",
+    ]]
+    return temp_df
+
+
 if __name__ == "__main__":
     fund_em_fund_name_df = fund_em_fund_name()
     print(fund_em_fund_name_df)
-    fund_em_daily_df = fund_em_open_fund_daily()
-    print(fund_em_daily_df)
+    fund_em_open_fund_daily_df = fund_em_open_fund_daily()
+    print(fund_em_open_fund_daily_df)
     time.sleep(3)
     fund_em_info_net_df = fund_em_open_fund_info(fund="710001", indicator="单位净值走势")
     print(fund_em_info_net_df)
@@ -656,3 +733,6 @@ if __name__ == "__main__":
 
     fund_em_etf_fund_info_df = fund_em_etf_fund_info(fund="511280")
     print(fund_em_etf_fund_info_df)
+
+    fund_em_value_estimation_df = fund_em_value_estimation()
+    print(fund_em_value_estimation_df)

@@ -184,9 +184,6 @@ def covid_19_163(indicator: str = "实时") -> pd.DataFrame:
     elif indicator == "权威发布":
         return pd.DataFrame(data_info_json["power"])
 
-    elif indicator == "滚动新闻":
-        return pd.DataFrame(data_info_json["scrollNews"])
-
     elif indicator == "境外输入疫情趋势":
         url = "https://c.m.163.com/ug/api/wuhan/app/data/list-by-area-code"
         params = {
@@ -836,7 +833,6 @@ if __name__ == "__main__":
         "实时医院新闻播报",
         "前沿知识",
         "权威发布",
-        "滚动新闻",
         "境外输入疫情趋势",
         "境外输入确诊病例来源",
     ]
@@ -894,15 +890,15 @@ if __name__ == "__main__":
 
     # 迁徙地图
     migration_area_baidu_df = migration_area_baidu(
-        area="上海市", indicator="move_in", date="20200212"
+        area="上海市", indicator="move_in", date="20200312"
     )
     print(migration_area_baidu_df)
 
-    internal_flow_history_df = internal_flow_history(area="北京市", date="20200414")
-    print(internal_flow_history_df)
+    # internal_flow_history_df = internal_flow_history(area="北京市", date="20200405")
+    # print(internal_flow_history_df)
 
     migration_scale_baidu_df = migration_scale_baidu(
-        area="上海市", indicator="move_in", start_date="20190113", end_date="20200212"
+        area="上海市", indicator="move_in", start_date="20190113", end_date="20200512"
     )
     print(migration_scale_baidu_df)
     # 小区
